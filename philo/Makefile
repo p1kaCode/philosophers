@@ -1,7 +1,10 @@
 NAME = philo
 
 SRCS =	utils/ft_atoi.c \
-		src/philo.c 
+		utils/get_time.c \
+		src/philo.c \
+		src/actions.c \
+		src/init.c
 
 OBJS = $(SRCS:.c=.o)
 
