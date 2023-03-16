@@ -4,7 +4,9 @@ SRCS =	utils/ft_atoi.c \
 		utils/get_time.c \
 		src/philo.c \
 		src/actions.c \
-		src/init.c
+		src/init.c \
+		src/behavior.c \
+		src/messages.c
 
 OBJS = $(SRCS:.c=.o)
 

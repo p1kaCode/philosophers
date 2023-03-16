@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 00:31:13 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/16 01:46:30 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ typedef struct s_data{
 	t_philo			*table;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	finished;
+	pthread_mutex_t	writing;
 }		t_data;
-
-# define FREE 0
-# define TAKEN 1
 
 # define SUCCESS 0
 # define ERROR -1
 # define MSG_ERROR_ARGS "Error\t: Invalid arguments.\n"
+# define MSG_END "All the philosophers have eaten enought"
 
 __uint64_t	get_time(void);
 int			ft_atoi(char *str);
-
 int			initialization(t_data *params, int ac, char **av);
+void		*philo_behavior(void *p_void);
 void		take_forks(t_philo *philo);
 void		eat(t_philo *philo);
 void		go_sleep(t_philo *philo);
-void		print_log(t_philo *philo, char *msg);
+void		state_log(t_philo *philo, char *msg);
+void		end_log(t_data *params);
 #endif
