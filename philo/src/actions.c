@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:40:17 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 01:30:52 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/16 02:26:14 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->params->forks[philo->id - 1]);
-	state_log(philo, "has taken a fork");
+	int	nb;
+
+	nb = philo->params->number;
 	pthread_mutex_lock(&philo->params->forks[philo->id]);
+	state_log(philo, "has taken a fork");
+	pthread_mutex_lock(&philo->params->forks[(philo->id + 1) % nb]);
 	state_log(philo, "has taken a fork");
 }
 
@@ -34,9 +37,11 @@ void	eat(t_philo *philo)
 
 void	go_sleep(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->params->forks[philo->id - 1]);
+	int	nb;
+
+	nb = philo->params->number;
 	pthread_mutex_unlock(&philo->params->forks[philo->id]);
+	pthread_mutex_unlock(&philo->params->forks[(philo->id + 1) % nb]);
 	state_log(philo, "is sleeping");
 	usleep(philo->params->time_to_sleep * 1000);
 }
-

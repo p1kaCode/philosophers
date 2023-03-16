@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:58:28 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 01:30:34 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/16 01:55:55 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*life_checker(void *p_void)
 			return ((void *)0);
 		}
 		pthread_mutex_unlock(&philo->mutex);
-		usleep(5000);
+		usleep(1000);
 	}
 }
 
