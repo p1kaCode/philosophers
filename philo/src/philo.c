@@ -93,5 +93,6 @@ int	main(int ac, char **av)
 		return (ERROR);
 	pthread_mutex_lock(&params.finished);
 	pthread_mutex_unlock(&params.finished);
+	free_data(&params, SUCCESS);
 	return (SUCCESS);
 }

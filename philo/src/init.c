@@ -60,3 +60,25 @@ int	initialization(t_data *params, int ac, char **av)
 	params->start_time = get_time();
 	return (init_philos(params));
 }
+
+int	free_data(t_data *params, int ret)
+{
+	int i;
+
+	i = params->number;
+	while (i >= 0)
+	{
+		pthread_mutex_destroy(&params->forks[i]);
+		pthread_mutex_destroy(&params->table[i].mutex);
+		i--;
+	}
+	pthread_mutex_destroy(&params->finished);
+	pthread_mutex_destroy(&params->writing);
+	pthread_mutex_destroy(params->forks);
+	free(params->forks);
+	free(params->table);
+	if (ret == SUCCESS)
+		return (SUCCESS);
+	else
+		return (1);
+}

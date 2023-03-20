@@ -57,4 +57,5 @@ void		eat(t_philo *philo);
 void		go_sleep(t_philo *philo);
 void		state_log(t_philo *philo, char *msg);
 void		end_log(t_data *params);
+int			free_data(t_data *params, int ret);
 #endif
