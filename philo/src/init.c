@@ -65,7 +65,7 @@ int	free_data(t_data *params, int ret)
 {
 	int i;
 
-	i = params->number;
+	i = params->number - 1;
 	while (i >= 0)
 	{
 		pthread_mutex_destroy(&params->forks[i]);

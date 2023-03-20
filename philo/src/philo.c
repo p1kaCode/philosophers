@@ -82,17 +82,16 @@ int	main(int ac, char **av)
 		return (ERROR);
 	}
 	if (initialization(&params, ac, av))
-		return (ERROR);
+		return (free_data(&params, ERROR));
 	if (params.meals_numbers > 0)
 	{
 		if (pthread_create(&tid, NULL, meals_detector, &params) != 0)
-			return (ERROR);
+			return (free_data(&params, ERROR));
 		pthread_detach(tid);
 	}
 	if (launch_threads(&params) == ERROR)
-		return (ERROR);
+		return (free_data(&params, ERROR));
 	pthread_mutex_lock(&params.finished);
 	pthread_mutex_unlock(&params.finished);
-	free_data(&params, SUCCESS);
-	return (SUCCESS);
+	return (free_data(&params, SUCCESS));
 }
