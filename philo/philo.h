@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 01:46:30 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:56:19 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_data{
 # define MSG_END "All the philosophers have eaten enought"
 
 __uint64_t	get_time(void);
-int			ft_atoi(char *str);
+int			ft_atoi(const char *str);
 int			initialization(t_data *params, int ac, char **av);
 void		*philo_behavior(void *p_void);
 void		take_forks(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:58:08 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 02:02:02 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/21 20:09:14 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	init_mutexes(t_data *params)
 	pthread_mutex_init(&params->finished, NULL);
 	pthread_mutex_init(&params->writing, NULL);
 	pthread_mutex_lock(&params->finished);
-	params->forks = malloc(sizeof(*(params->forks)) * params->number);
+	params->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* params->number);
 	if (!(params->forks))
 		return (ERROR);
 	i = 0;
@@ -39,6 +40,7 @@ int	init_philos(t_data *params)
 		params->table[i].params = params;
 		params->table[i].meals = 0;
 		params->table[i].is_eating = 0;
+		pthread_mutex_init(&params->table[i].mutex, NULL);
 		i++;
 	}
 	return (init_mutexes(params));
@@ -54,7 +56,7 @@ int	initialization(t_data *params, int ac, char **av)
 		params->meals_numbers = ft_atoi(av[5]);
 	else
 		params->meals_numbers = 0;
-	params->table = malloc(sizeof(*(params->table)) * params->number);
+	params->table = (t_philo *)malloc(sizeof(t_philo) * params->number);
 	if (!params->table)
 		return (ERROR);
 	params->start_time = get_time();
@@ -63,20 +65,19 @@ int	initialization(t_data *params, int ac, char **av)
 
 int	free_data(t_data *params, int ret)
 {
-	int i;
+	int	i;
 
-	i = params->number - 1;
-	while (i >= 0)
+	i = 0;
+	while (i < params->number)
 	{
 		pthread_mutex_destroy(&params->forks[i]);
 		pthread_mutex_destroy(&params->table[i].mutex);
-		i--;
+		i++;
 	}
-	pthread_mutex_destroy(&params->finished);
-	pthread_mutex_destroy(&params->writing);
-	pthread_mutex_destroy(params->forks);
 	free(params->forks);
 	free(params->table);
+	pthread_mutex_destroy(&params->finished);
+	pthread_mutex_destroy(&params->writing);
 	if (ret == SUCCESS)
 		return (SUCCESS);
 	else
