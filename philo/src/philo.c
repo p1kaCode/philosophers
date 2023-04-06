@@ -21,7 +21,7 @@ int	arg_checking(int ac, char **av)
 	i = 1;
 	while (i < ac)
 	{
-		if (ft_atoi(av[i]) < 1 && i != 5)
+		if (ft_atoi(av[i]) < 1)
 			return (ERROR);
 		i++;
 	}
