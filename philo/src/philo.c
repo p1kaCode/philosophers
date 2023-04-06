@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:16:36 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/16 01:44:38 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/03/21 20:12:40 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	launch_threads(t_data *params)
 	i = 0;
 	while (i < params->number)
 	{
-		philo = &params->table[i];
+		philo = (void *)&params->table[i];
 		if (pthread_create(&tid, NULL, philo_behavior, philo) != 0)
 			return (ERROR);
 		pthread_detach(tid);
@@ -85,7 +85,7 @@ int	main(int ac, char **av)
 		return (free_data(&params, ERROR));
 	if (params.meals_numbers > 0)
 	{
-		if (pthread_create(&tid, NULL, meals_detector, &params) != 0)
+		if (pthread_create(&tid, NULL, meals_detector, (void *)&params) != 0)
 			return (free_data(&params, ERROR));
 		pthread_detach(tid);
 	}
