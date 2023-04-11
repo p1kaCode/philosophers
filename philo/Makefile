@@ -14,7 +14,7 @@ HDRS = philo.h
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror 
 
 RM = rm -rf
 
@@ -24,7 +24,7 @@ RM = rm -rf
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC) -pthread $(OBJS) -o $(NAME)
 
 clean :
 	$(RM) $(OBJS)
