@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:16:36 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/21 20:12:40 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/04/11 13:51:00 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@ int	arg_checking(int ac, char **av)
 	int	i;
 
 	if (ac < 5 || ac > 6)
+	{
+		printf(MSG_FORMAT);
 		return (ERROR);
+	}
 	i = 1;
 	while (i < ac)
 	{
 		if (ft_atoi(av[i]) < 1)
+		{
+			printf(MSG_ERROR_ARGS);
 			return (ERROR);
+		}
 		i++;
 	}
 	return (SUCCESS);
@@ -77,10 +83,7 @@ int	main(int ac, char **av)
 	pthread_t	tid;
 
 	if (arg_checking(ac, av))
-	{
-		printf(MSG_ERROR_ARGS);
 		return (ERROR);
-	}
 	if (initialization(&params, ac, av))
 		return (free_data(&params, ERROR));
 	if (params.meals_numbers > 0)

@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/21 19:56:19 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/04/11 13:57:14 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_data{
 # define ERROR -1
 # define MSG_ERROR_ARGS "Error\t: Invalid arguments.\n"
 # define MSG_END "All the philosophers have eaten enought"
+# define MSG_FORMAT "Invalid use\t: ./philo [Nb of philos] [Time to die] \
+[Time to eat] [Time to sleep] (Optionnal :[Nb of meals])\nPlease retry.\n"
 
 __uint64_t	get_time(void);
 int			ft_atoi(const char *str);
