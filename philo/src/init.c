@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:58:08 by lmorel            #+#    #+#             */
-/*   Updated: 2023/03/21 20:09:14 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/16 16:23:29 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	initialization(t_data *params, int ac, char **av)
 	params->time_to_die = ft_atoi(av[2]);
 	params->time_to_eat = ft_atoi(av[3]);
 	params->time_to_sleep = ft_atoi(av[4]);
+	params->all_dead = 0;
 	if (ac == 6)
 		params->meals_numbers = ft_atoi(av[5]);
 	else

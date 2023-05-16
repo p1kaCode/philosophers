@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:16:36 by lmorel            #+#    #+#             */
-/*   Updated: 2023/04/11 13:51:00 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/16 19:19:15 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	arg_checking(int ac, char **av)
 	i = 1;
 	while (i < ac)
 	{
-		if (ft_atoi(av[i]) < 1)
+		if (ft_atoi(av[i]) < 1 || ft_atoi(av[1]) > 200)
 		{
 			printf(MSG_ERROR_ARGS);
 			return (ERROR);
@@ -46,55 +46,23 @@ int	launch_threads(t_data *params)
 		philo = (void *)&params->table[i];
 		if (pthread_create(&tid, NULL, philo_behavior, philo) != 0)
 			return (ERROR);
-		pthread_detach(tid);
-		usleep(100);
+		params->table[i].tid = tid;
+		usleep(200);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-void	*meals_detector(void *p_void)
-{
-	t_data	*params;
-	int		i;
-
-	params = (t_data *)p_void;
-	i = 0;
-	while (i < params->number)
-	{
-		pthread_mutex_lock(&params->table[i].mutex);
-		if (params->table[i].meals >= params->meals_numbers)
-			i++;
-		pthread_mutex_unlock(&params->table[i].mutex);
-		if (i == params->number)
-		{
-			end_log(params);
-			pthread_mutex_unlock(&params->finished);
-			return ((void *)0);
-		}
-		usleep(1000);
-	}
-	return ((void *)1);
-}
-
 int	main(int ac, char **av)
 {
 	t_data		params;
-	pthread_t	tid;
 
 	if (arg_checking(ac, av))
 		return (ERROR);
 	if (initialization(&params, ac, av))
 		return (free_data(&params, ERROR));
-	if (params.meals_numbers > 0)
-	{
-		if (pthread_create(&tid, NULL, meals_detector, (void *)&params) != 0)
-			return (free_data(&params, ERROR));
-		pthread_detach(tid);
-	}
 	if (launch_threads(&params) == ERROR)
 		return (free_data(&params, ERROR));
-	pthread_mutex_lock(&params.finished);
-	pthread_mutex_unlock(&params.finished);
+	wait_end(&params);
 	return (free_data(&params, SUCCESS));
 }

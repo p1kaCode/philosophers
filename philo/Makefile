@@ -6,6 +6,7 @@ SRCS =	utils/ft_atoi.c \
 		src/actions.c \
 		src/init.c \
 		src/behavior.c \
+		src/end_loop.c \
 		src/messages.c
 
 OBJS = $(SRCS:.c=.o)
