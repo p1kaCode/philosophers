@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:05:33 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/16 19:31:06 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:27:32 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	meals_detector(t_data *params)
 			i++;
 		}
 		else
+		{
 			pthread_mutex_unlock(&params->table[i].mutex);
+			break ;
+		}
 		if (i == params->number)
 			return (0);
 	}
@@ -35,6 +38,8 @@ int	meals_detector(t_data *params)
 
 int	check_meals(t_data *params)
 {
+	if (params->all_dead == 1)
+		return (1);
 	if (params->meals_numbers > 0 && meals_detector(params) == 0)
 	{
 		pthread_mutex_lock(&params->writing);
@@ -52,6 +57,8 @@ int	live_monitor(t_data *params)
 	int		i;
 
 	i = 0;
+	if (params->all_dead)
+		return (1);
 	while (i < params->number && params->all_dead == 0)
 	{
 		philo = params->table[i];

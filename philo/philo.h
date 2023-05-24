@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/16 19:24:24 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:02:38 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_data{
 	__uint64_t		start_time;
 	t_philo			*table;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	finished;
 	pthread_mutex_t	writing;
 }		t_data;
 

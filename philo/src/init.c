@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:58:08 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/16 16:23:29 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:03:08 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	init_mutexes(t_data *params)
 {
 	int	i;
 
-	pthread_mutex_init(&params->finished, NULL);
 	pthread_mutex_init(&params->writing, NULL);
-	pthread_mutex_lock(&params->finished);
 	params->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 			* params->number);
 	if (!(params->forks))
@@ -77,7 +75,6 @@ int	free_data(t_data *params, int ret)
 	}
 	free(params->forks);
 	free(params->table);
-	pthread_mutex_destroy(&params->finished);
 	pthread_mutex_destroy(&params->writing);
 	if (ret == SUCCESS)
 		return (SUCCESS);
