@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:58:28 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/16 16:55:11 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:26:49 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*philo_behavior(void *p_void)
 	while (philo->params->all_dead == 0)
 	{
 		take_forks(philo);
+		if (philo->params->number == 1)
+			return ((void *)0);
 		eat(philo);
 		go_sleep(philo);
 		if (philo->params->all_dead == 1)

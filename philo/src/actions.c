@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:40:17 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/16 19:08:38 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:27:42 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	take_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->params->writing);
 	state_log(philo, "has taken a fork");
 	pthread_mutex_unlock(&philo->params->writing);
-	if (philo->params->all_dead == 1)
+	if (philo->params->all_dead == 1 || philo->params->number == 1)
 		return ((void)0);
 	pthread_mutex_lock(&philo->params->forks[(philo->id + 1) % nb]);
 	if (philo->params->all_dead == 1)
