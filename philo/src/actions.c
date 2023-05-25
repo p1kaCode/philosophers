@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:40:17 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:27:42 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:42:48 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	eat(t_philo *philo)
 	if (philo->params->all_dead == 1)
 		return ((void)0);
 	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "\x1B[34mis eating\x1B[0m");
+	state_log(philo, "\x1B[34mis eating\t🍖\x1B[0m");
 	pthread_mutex_unlock(&philo->params->writing);
 	usleep(philo->params->time_to_eat * 1000);
 	philo->meals++;
@@ -63,7 +63,7 @@ void	go_sleep(t_philo *philo)
 	if (philo->params->all_dead == 1)
 		return ((void)0);
 	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "is sleeping");
+	state_log(philo, "is sleeping\t💤");
 	pthread_mutex_unlock(&philo->params->writing);
 	usleep(philo->params->time_to_sleep * 1000);
 }

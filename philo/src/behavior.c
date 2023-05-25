@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:58:28 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:26:49 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/05/25 15:43:31 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*philo_behavior(void *p_void)
 		if (philo->params->all_dead == 1)
 			return ((void *)0);
 		pthread_mutex_lock(&philo->params->writing);
-		state_log(philo, "is thinking");
+		state_log(philo, "is thinking\t🤔");
 		pthread_mutex_unlock(&philo->params->writing);
 	}
 	return ((void *)0);
