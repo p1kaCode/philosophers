@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:05:33 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:24:05 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/07/25 22:27:41 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	meals_detector(t_data *params)
 			return (0);
 	}
 	return (1);
-}	
+}
 
 int	check_meals(t_data *params)
 {
@@ -99,4 +99,4 @@ int	wait_end(t_data *params)
 	}
 	end_process(params);
 	return (SUCCESS);
-}	
+}
