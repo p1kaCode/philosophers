@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:40:17 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:42:48 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/15 23:54:12 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,56 @@
 
 void	take_forks(t_philo *philo)
 {
-	int	nb;
+	if ((philo->id + 1) % 2 == 0)
+	{
+		pthread_mutex_lock(philo->lfork);
+		state_log(philo, FORK);
+		pthread_mutex_lock(philo->rfork);
+		state_log(philo, FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->rfork);
+		state_log(philo, FORK);
+		pthread_mutex_lock(philo->lfork);
+		state_log(philo, FORK);
+	}
+}
 
-	if (philo->params->all_dead == 1)
-		return ((void)0);
-	nb = philo->params->number;
-	pthread_mutex_lock(&philo->params->forks[philo->id]);
-	if (philo->params->all_dead == 1)
-		return ((void)0);
-	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "has taken a fork");
-	pthread_mutex_unlock(&philo->params->writing);
-	if (philo->params->all_dead == 1 || philo->params->number == 1)
-		return ((void)0);
-	pthread_mutex_lock(&philo->params->forks[(philo->id + 1) % nb]);
-	if (philo->params->all_dead == 1)
-		return ((void)0);
-	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "has taken a fork");
-	pthread_mutex_unlock(&philo->params->writing);
+void	let_forks(t_philo *philo)
+{
+	if ((philo->id + 1) % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->lfork);
+		pthread_mutex_unlock(philo->rfork);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->rfork);
+		pthread_mutex_unlock(philo->lfork);
+	}
 }
 
 void	eat(t_philo *philo)
 {
-	if (philo->params->all_dead == 1)
-		return ((void)0);
+	take_forks(philo);
+	pthread_mutex_lock(&philo->params->monitoring);
 	pthread_mutex_lock(&philo->mutex);
 	philo->is_eating = 1;
 	philo->last_eat = get_time();
-	if (philo->params->all_dead == 1)
-		return ((void)0);
-	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "\x1B[34mis eating\t🍖\x1B[0m");
-	pthread_mutex_unlock(&philo->params->writing);
-	usleep(philo->params->time_to_eat * 1000);
 	philo->meals++;
-	philo->is_eating = 0;
+	state_log(philo, EAT);
 	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->params->monitoring);
+	usleep(philo->params->time_to_eat * 1000);
+	pthread_mutex_lock(&philo->params->monitoring);
+	philo->is_eating = 0;
+	pthread_mutex_unlock(&philo->params->monitoring);
+	let_forks(philo);
 }
 
 void	go_sleep(t_philo *philo)
 {
-	int	nb;
-
-	nb = philo->params->number;
-	pthread_mutex_unlock(&philo->params->forks[philo->id]);
-	pthread_mutex_unlock(&philo->params->forks[(philo->id + 1) % nb]);
-	if (philo->params->all_dead == 1)
-		return ((void)0);
-	pthread_mutex_lock(&philo->params->writing);
-	state_log(philo, "is sleeping\t💤");
-	pthread_mutex_unlock(&philo->params->writing);
+	state_log(philo, SLEEP);
 	usleep(philo->params->time_to_sleep * 1000);
 }

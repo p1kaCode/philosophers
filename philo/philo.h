@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/06/14 14:52:29 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/15 23:42:08 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ struct	s_data;
 
 typedef struct s_philo{
 	int				id;
+	pthread_mutex_t	*lfork;
+	pthread_mutex_t	*rfork;
 	pthread_t		tid;
 	struct s_data	*params;
 	int				meals;
@@ -41,6 +43,8 @@ typedef struct s_data{
 	__uint64_t		start_time;
 	t_philo			*table;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	monitoring;
+	pthread_mutex_t	end;
 	pthread_mutex_t	writing;
 }		t_data;
 
@@ -51,6 +55,11 @@ typedef struct s_data{
 # define MSG_FORMAT "\x1B[31mInvalid use\x1B[0m\t: ./philo [Nb of philos] \
 [Time to die] [Time to eat] [Time to sleep] (Optionnal \
 :[Nb of meals])\n\x1B[32mPlease retry.\x1B[0m\n"
+
+# define FORK "has taken a fork"
+# define EAT "\x1B[34mis eating\x1B[0m"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
 
 __uint64_t	get_time(void);
 int			ft_atoi(const char *str);

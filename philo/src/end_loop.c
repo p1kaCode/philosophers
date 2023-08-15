@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:05:33 by lmorel            #+#    #+#             */
-/*   Updated: 2023/07/25 22:27:41 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/15 23:51:37 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,22 @@ int	check_meals(t_data *params)
 {
 	if (params->all_dead == 1)
 		return (1);
+	pthread_mutex_lock(&params->monitoring);
 	if (params->meals_numbers > 0 && meals_detector(params) == 0)
 	{
-		pthread_mutex_lock(&params->writing);
 		end_log(params);
+		pthread_mutex_lock(&params->end);
 		params->all_dead = 1;
-		pthread_mutex_unlock(&params->writing);
+		pthread_mutex_unlock(&params->monitoring);
 		return (1);
 	}
+	pthread_mutex_unlock(&params->monitoring);
 	return (0);
 }
 
 int	live_monitor(t_data *params)
 {
-	t_philo	philo;
+	t_philo	*philo;
 	int		i;
 
 	i = 0;
@@ -61,16 +63,18 @@ int	live_monitor(t_data *params)
 		return (1);
 	while (i < params->number && params->all_dead == 0)
 	{
-		philo = params->table[i];
-		if (!philo.is_eating && get_time() > \
-		(philo.last_eat + params->time_to_die))
+		philo = &params->table[i];
+		pthread_mutex_lock(&params->monitoring);
+		if (!philo->is_eating && \
+			(get_time() - philo->last_eat >= params->time_to_die))
 		{
-			pthread_mutex_lock(&params->writing);
-			state_log(&philo, "\x1B[31mis dead\x1B[0m");
+			state_log(philo, "\x1B[31mis dead\x1B[0m");
+			pthread_mutex_lock(&philo->params->end);
 			params->all_dead = 1;
-			pthread_mutex_unlock(&params->writing);
+			pthread_mutex_unlock(&philo->params->monitoring);
 			return (1);
 		}
+		pthread_mutex_unlock(&params->monitoring);
 		i++;
 	}
 	return (0);
@@ -93,10 +97,10 @@ int	wait_end(t_data *params)
 {
 	while (1)
 	{
-		usleep(5);
 		if (live_monitor(params) == 1 || check_meals(params) == 1)
 			break ;
 	}
 	end_process(params);
+	pthread_mutex_unlock(&params->end);
 	return (SUCCESS);
 }

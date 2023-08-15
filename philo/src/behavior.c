@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:58:28 by lmorel            #+#    #+#             */
-/*   Updated: 2023/05/25 15:43:31 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/15 23:11:37 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,23 @@ void	*philo_behavior(void *p_void)
 	t_philo		*philo;
 
 	philo = (t_philo *)p_void;
+	pthread_mutex_lock(&philo->params->monitoring);
 	philo->last_eat = get_time();
-	while (philo->params->all_dead == 0)
+	pthread_mutex_unlock(&philo->params->monitoring);
+	if (philo->params->number == 1)
+		return (state_log(philo, FORK), (void *)0);
+	while (1)
 	{
-		take_forks(philo);
-		if (philo->params->number == 1)
-			return ((void *)0);
+		state_log(philo, THINK);
+		pthread_mutex_lock(&philo->params->monitoring);
+		if (philo->params->end.__data.__lock == 1)
+		{
+			pthread_mutex_unlock(&philo->params->monitoring);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->params->monitoring);
 		eat(philo);
 		go_sleep(philo);
-		if (philo->params->all_dead == 1)
-			return ((void *)0);
-		pthread_mutex_lock(&philo->params->writing);
-		state_log(philo, "is thinking\t🤔");
-		pthread_mutex_unlock(&philo->params->writing);
 	}
 	return ((void *)0);
 }
