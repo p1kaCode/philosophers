@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/15 23:42:08 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/16 20:59:43 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ struct	s_data;
 
 typedef struct s_philo{
 	int				id;
-	pthread_mutex_t	*lfork;
-	pthread_mutex_t	*rfork;
 	pthread_t		tid;
 	struct s_data	*params;
 	int				meals;
 	int				is_eating;
 	__uint64_t		last_eat;
+	int				own_fork;
+	int				*right_fork;
+	pthread_mutex_t	*m_ofork;
+	pthread_mutex_t	*m_rfork;
 	pthread_mutex_t	mutex;
 }	t_philo;
 
@@ -65,11 +67,14 @@ __uint64_t	get_time(void);
 int			ft_atoi(const char *str);
 int			initialization(t_data *params, int ac, char **av);
 void		*philo_behavior(void *p_void);
-void		take_forks(t_philo *philo);
+int			take_forks(t_philo *philo);
 void		eat(t_philo *philo);
 void		go_sleep(t_philo *philo);
 void		state_log(t_philo *philo, char *msg);
 void		end_log(t_data *params);
 int			wait_end(t_data *params);
 int			free_data(t_data *params, int ret);
+int			init_philos(t_data *params);
+void		let_forks(t_philo *philo);
+void		init_forks(t_data *params);
 #endif

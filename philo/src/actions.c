@@ -6,42 +6,20 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:40:17 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/15 23:54:12 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/16 21:07:33 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	take_forks(t_philo *philo)
+void	wait(unsigned long long time_ms)
 {
-	if ((philo->id + 1) % 2 == 0)
-	{
-		pthread_mutex_lock(philo->lfork);
-		state_log(philo, FORK);
-		pthread_mutex_lock(philo->rfork);
-		state_log(philo, FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->rfork);
-		state_log(philo, FORK);
-		pthread_mutex_lock(philo->lfork);
-		state_log(philo, FORK);
-	}
-}
+	unsigned long long	time;
 
-void	let_forks(t_philo *philo)
-{
-	if ((philo->id + 1) % 2 == 0)
-	{
-		pthread_mutex_unlock(philo->lfork);
-		pthread_mutex_unlock(philo->rfork);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->rfork);
-		pthread_mutex_unlock(philo->lfork);
-	}
+	time = get_time();
+	usleep(time_ms * 900);
+	while (get_time() - time < time_ms)
+		usleep(100);
 }
 
 void	eat(t_philo *philo)
@@ -55,7 +33,7 @@ void	eat(t_philo *philo)
 	state_log(philo, EAT);
 	pthread_mutex_unlock(&philo->mutex);
 	pthread_mutex_unlock(&philo->params->monitoring);
-	usleep(philo->params->time_to_eat * 1000);
+	wait(philo->params->time_to_eat);
 	pthread_mutex_lock(&philo->params->monitoring);
 	philo->is_eating = 0;
 	pthread_mutex_unlock(&philo->params->monitoring);
@@ -65,5 +43,5 @@ void	eat(t_philo *philo)
 void	go_sleep(t_philo *philo)
 {
 	state_log(philo, SLEEP);
-	usleep(philo->params->time_to_sleep * 1000);
+	wait(philo->params->time_to_sleep);
 }

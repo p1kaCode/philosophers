@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:58:08 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/15 22:08:18 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/16 21:07:26 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@ int	init_philos(t_data *params)
 		params->table[i].params = params;
 		params->table[i].meals = 0;
 		params->table[i].is_eating = 0;
-		params->table[i].lfork = &params->forks[i];
-		params->table[i].rfork = &params->forks[(i + 1) % params->number];
-		pthread_mutex_init(&params->table[i].mutex, NULL);
 		i++;
 	}
+	init_forks(params);
 	return (SUCCESS);
 }
 

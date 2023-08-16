@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:05:33 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/15 23:51:37 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/16 20:37:25 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	live_monitor(t_data *params)
 		if (!philo->is_eating && \
 			(get_time() - philo->last_eat >= params->time_to_die))
 		{
-			state_log(philo, "\x1B[31mis dead\x1B[0m");
+			state_log(philo, "\x1B[31mdied\x1B[0m");
 			pthread_mutex_lock(&philo->params->end);
 			params->all_dead = 1;
 			pthread_mutex_unlock(&philo->params->monitoring);
@@ -99,6 +99,7 @@ int	wait_end(t_data *params)
 	{
 		if (live_monitor(params) == 1 || check_meals(params) == 1)
 			break ;
+		usleep(1000);
 	}
 	end_process(params);
 	pthread_mutex_unlock(&params->end);
