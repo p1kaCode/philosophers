@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 00:58:28 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/15 23:11:37 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/16 21:10:30 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*philo_behavior(void *p_void)
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->params->monitoring);
 	if (philo->params->number == 1)
-		return (state_log(philo, FORK), (void *)0);
+		return (state_log(philo, THINK), state_log(philo, FORK), (void *)0);
 	while (1)
 	{
 		state_log(philo, THINK);
