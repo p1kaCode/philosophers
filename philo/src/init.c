@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:58:08 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/16 21:07:26 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/18 02:18:10 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	free_data(t_data *params, int ret)
 	while (i < params->number)
 	{
 		pthread_mutex_destroy(&params->forks[i]);
-		pthread_mutex_destroy(&params->table[i].mutex);
 		i++;
 	}
 	free(params->forks);

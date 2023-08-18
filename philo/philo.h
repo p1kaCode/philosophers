@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 22:18:06 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/16 20:59:43 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/18 02:05:34 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_philo{
 	int				*right_fork;
 	pthread_mutex_t	*m_ofork;
 	pthread_mutex_t	*m_rfork;
-	pthread_mutex_t	mutex;
 }	t_philo;
 
 typedef struct s_data{

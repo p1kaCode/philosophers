@@ -6,7 +6,7 @@
 /*   By: lmorel <lmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 20:40:48 by lmorel            #+#    #+#             */
-/*   Updated: 2023/08/16 20:52:55 by lmorel           ###   ########.fr       */
+/*   Updated: 2023/08/18 02:07:19 by lmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,16 @@ void	init_forks(t_data *params)
 	{
 		params->table[0].m_ofork = &params->forks[i];
 		params->table[0].own_fork = 1;
-		pthread_mutex_init(&params->table[0].mutex, NULL);
 		return ;
 	}
 	params->table[i].m_ofork = &params->forks[i];
 	params->table[i].own_fork = 1;
-	pthread_mutex_init(&params->table[i].mutex, NULL);
 	while (i-- > 0)
 	{
 		params->table[i].m_ofork = &params->forks[i];
 		params->table[i].m_rfork = &params->forks[i + 1];
 		params->table[i].own_fork = 1;
 		params->table[i].right_fork = &params->table[i + 1].own_fork;
-		pthread_mutex_init(&params->table[i].mutex, NULL);
 	}
 	params->table[params->number - 1].m_rfork = &params->forks[0];
 	params->table[params->number - 1].right_fork = \
